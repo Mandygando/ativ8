@@ -6,17 +6,17 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import axios from 'axios'
+import disciplinaValidator from '@/validators/disciplinaValidator'
 
 const formDis = () => {
 
     const { push } = useRouter()
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
   function salvar(dados) {
 
     const disciplinas = JSON.parse(window.localStorage.getItem('disciplinas')) || []
-    disciplinas.unshift(dados)
+    disciplinas.push(dados)
 
     window.localStorage.setItem('disciplinas', JSON.stringify(disciplinas))
     push("/disciplinas")
@@ -26,20 +26,32 @@ const formDis = () => {
         <Pagina titulo="Disciplina">
             <Form>
 
-                <Form.Group className="mb-3" controlId="nome">
+            <Form.Group className="mb-3" controlId="nome">
                     <Form.Label>Nome: </Form.Label>
-                    <Form.Control type="text" {...register('nome')} />
+                    <Form.Control isInvalid={errors.nome} type="text" {...register('nome',disciplinaValidator.nome)} placeholder="Digite o nome da Disciplina" />
                 </Form.Group>
+                {
+                    errors.nome &&
+                    <small className='mt-1 text-danger'>{errors.nome.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="modalidade">
                     <Form.Label>Modalidade: </Form.Label>
-                    <Form.Control type="text"  {...register('modalidade')}/>
+                    <Form.Control isInvalid={errors.modalidade} type="text"  {...register('modalidade',disciplinaValidator.modalidade)} placeholder="Digite a Modalidade" />
                 </Form.Group>
+                {
+                    errors.modalidade &&
+                    <small className='mt-1 text-danger'>{errors.modalidade.message}</small>
+                }
 
                 <Form.Group className="mb-3 " controlId="duracao">
                     <Form.Label>Duração: </Form.Label>
-                    <Form.Control type="text"  {...register('duracao')}/>
+                    <Form.Control isInvalid={errors.duracao} type="text"  {...register('duracao',disciplinaValidator.duracao)} placeholder="Digite a Duração do curso" />
                 </Form.Group>
+                {
+                    errors.duracao &&
+                    <small className='mt-1 text-danger'>{errors.duracao.message}</small>
+                }
 
                 <div className='text-center'>
                     <Button variant="success" onClick={handleSubmit(salvar)}>

@@ -6,37 +6,53 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import axios from 'axios'
+import semestreValidator from '@/validators/semestreValidator'
 
 const formSem = () => {
 
-    const { push } = useRouter()
-  const { register, handleSubmit } = useForm();
+    const {push} = useRouter()
+    const { register, handleSubmit, formState: {errors} } = useForm();
 
-  function salvar(dados) {
+    function salvar(dados) {
+
     const semestres = JSON.parse(window.localStorage.getItem('semestres')) || []
-    semestres.unshift(dados)
+    semestres.push(dados)
+
     window.localStorage.setItem('semestres', JSON.stringify(semestres))
     push("/semestres")
   }
 
     return (
-        <Pagina titulo="semestres">
+        <Pagina titulo="Semestres">
             <Form>
-                <Form.Group className="mb-3" controlId="nome">
+            <Form.Group className="mb-3" controlId="nome">
                     <Form.Label>Nome: </Form.Label>
-                    <Form.Control type="text" {...register('nome')} />
+                    <Form.Control isInvalid={errors.nome} type="text" {...register('nome',semestreValidator.nome)} placeholder="Digite o Semestre" />
                 </Form.Group>
+                {
+                    errors.nome &&
+                    <small className='mt-1 text-danger'>{errors.nome.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="dtInicio">
                     <Form.Label>Data de inicio: </Form.Label>
-                    <Form.Control type="text" {...register('dtInicio')} />
+                    <Form.Control isInvalid={errors.dtInicio} type="text" {...register('dtInicio',semestreValidator.dtInicio)} placeholder="Digite a data de inicio" />
                 </Form.Group>
+                {
+                    errors.dtInicio &&
+                    <small className='mt-1 text-danger'>{errors.dtInicio.message}</small>
+                }
+
 
                 <Form.Group className="mb-3" controlId="dtFim">
                     <Form.Label>Data de fim: </Form.Label>
-                    <Form.Control type="text" {...register('dtFim')} />
+                    <Form.Control isInvalid={errors.dtFim} type="text" {...register('dtFim',semestreValidator.dtFim)} placeholder="Digite a data de fim" />
                 </Form.Group>
+                {
+                    errors.dtFim &&
+                    <small className='mt-1 text-danger'>{errors.dtFim.message}</small>
+                }
+
 
             
                 <div className='text-center'>

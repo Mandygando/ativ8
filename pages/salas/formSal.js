@@ -6,16 +6,16 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import axios from 'axios'
+import salaValidator from '@/validators/salaValidator'
 
 const formSal = () => {
 
-    const { push } = useRouter()
-    const { register, handleSubmit } = useForm();
+    const {push} = useRouter()
+    const { register, handleSubmit, formState: {errors} } = useForm()
   
     function salvar(dados) {
       const salas = JSON.parse(window.localStorage.getItem('salas')) || []
-      salas.unshift(dados)
+      salas.push(dados)
       window.localStorage.setItem('salas', JSON.stringify(salas))
       push("/salas")
     }
@@ -25,18 +25,32 @@ const formSal = () => {
             <Form>
             <Form.Group className="mb-3" controlId="nome">
                     <Form.Label>Nome: </Form.Label>
-                    <Form.Control type="text" {...register('nome')} />
+                    <Form.Control isInvalid={errors.nome} type="text" {...register('nome',salaValidator.nome)} placeholder="Digite o Nome do Sala" />
                 </Form.Group>
+                {
+                    errors.nome &&
+                    <small className='mt-1 text-danger'>{errors.nome.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="capacidade">
                     <Form.Label>Capacidade: </Form.Label>
-                    <Form.Control type="text" {...register('capacidade')} />
+                    <Form.Control isInvalid={errors.capacidade} type="text" {...register('capacidade',salaValidator.capacidade)} placeholder="Qual a Capacidade da Sala?" />
                 </Form.Group>
+                {
+                    errors.capacidade &&
+                    <small className='mt-1 text-danger'>{errors.capacidade.message}</small>
+                }
+
 
                 <Form.Group className="mb-3" controlId="tipo">
                     <Form.Label>Tipo: </Form.Label>
-                    <Form.Control type="text" {...register('tipo')} />
+                    <Form.Control isInvalid={errors.tipo} type="text" {...register('tipo',salaValidator.tipo)} placeholder="Qual o Tipo da Sala?"/>
                 </Form.Group>
+                {
+                    errors.tipo &&
+                    <small className='mt-1 text-danger'>{errors.tipo.message}</small>
+                }
+
 
             
                 <div className='text-center'>

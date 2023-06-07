@@ -6,75 +6,115 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import axios from 'axios'
+import alunoValidator from '@/validators/alunoValidator'
 
 const formAlu = () => {
 
-    const { push } = useRouter()
-    const { register, handleSubmit } = useForm();
+    const {push} = useRouter()
+  const { register, handleSubmit, formState: {errors} } = useForm()
 
      function salvar(dados) {
 
         const alunos = JSON.parse(window.localStorage.getItem('alunos')) || []
-        alunos.unshift(dados)
+        alunos.push(dados)
 
          window.localStorage.setItem('alunos', JSON.stringify(alunos))
         push("/alunos")
   }
-
+  
     return (
         <Pagina titulo="alunos">
             <Form>
 
             <Form.Group className="mb-3" controlId="nome">
                     <Form.Label>Nome: </Form.Label>
-                    <Form.Control type="text" {...register('nome')} />
+                    <Form.Control isInvalid={errors.nome} type="text" {...register('nome', alunoValidator.nome)} placeholder="Digite o Nome do aluno" />
                 </Form.Group>
+                {
+                    errors.nome &&
+                    <small className='mt-1 text-danger'>{errors.nome.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="cpf">
                     <Form.Label>CPF: </Form.Label>
-                    <Form.Control type="text" {...register('cpf')} />
+                    <Form.Control isInvalid={errors.cpf} type="text" {...register('cpf',alunoValidator.cpf)} placeholder="Digite o CPF do aluno"/>
                 </Form.Group>
+                {
+                    errors.cpf &&
+                    <small className='mt-1 text-danger'>{errors.cpf.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="matricula">
                     <Form.Label>Matrícula: </Form.Label>
-                    <Form.Control type="text" {...register('matricula')} />
+                    <Form.Control isInvalid={errors.matricula} type="text" {...register('matricula',alunoValidator.matricula)} placeholder="Digite a Matrícula do aluno"/>
                 </Form.Group>
+                {
+                    errors.matricula &&
+                    <small className='mt-1 text-danger'>{errors.matricula.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Email: </Form.Label>
-                    <Form.Control type="text" {...register('email')} />
+                    <Form.Control isInvalid={errors.email} type="text" {...register('email',alunoValidator.email)} placeholder="Digite o Email do aluno"/>
                 </Form.Group>
+                {
+                    errors.email &&
+                    <small className='mt-1 text-danger'>{errors.email.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="telefone">
                     <Form.Label>Telefone: </Form.Label>
-                    <Form.Control type="text" {...register('telefone')} />
+                    <Form.Control isInvalid={errors.telefone} type="text" {...register('telefone',alunoValidator.telefone)} placeholder="Digite o Telefone do aluno"/>
                 </Form.Group>
+                {
+                    errors.telefone &&
+                    <small className='mt-1 text-danger'>{errors.telefone.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="cep">
                     <Form.Label>CEP: </Form.Label>
-                    <Form.Control type="text" {...register('cep')} />
+                    <Form.Control isInvalid={errors.cep} type="text" {...register('cep',alunoValidator.cep)} placeholder="Digite o CEP do aluno"/>
                 </Form.Group>
+                {
+                    errors.cep &&
+                    <small className='mt-1 text-danger'>{errors.cep.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="logradouro">
                     <Form.Label>Logradouro: </Form.Label>
-                    <Form.Control type="text" {...register('logradouro')} />
+                    <Form.Control isInvalid={errors.logradouro} type="text" {...register('logradouro',alunoValidator.logradouro)} placeholder="Digite o Logradouro do aluno" />
                 </Form.Group>
+                {
+                    errors.logradouro &&
+                    <small className='mt-1 text-danger'>{errors.logradouro.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="complemento">
                     <Form.Label>Complemento: </Form.Label>
-                    <Form.Control type="text" {...register('complemento')} />
+                    <Form.Control isInvalid={errors.complemento} type="text" {...register('complemento',alunoValidator.complemento)} placeholder="Digite um Complemento" />
                 </Form.Group>
+                {
+                    errors.complemento &&
+                    <small className='mt-1 text-danger'>{errors.complemento.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="numero">
                     <Form.Label>Numero: </Form.Label>
-                    <Form.Control type="text" {...register('numero')} />
+                    <Form.Control isInvalid={errors.numero} type="text" {...register('numero',alunoValidator.numero)} placeholder="Digite um Numero"  />
                 </Form.Group>
+                {
+                    errors.numero &&
+                    <small className='mt-1 text-danger'>{errors.numero.message}</small>
+                }
 
                 <Form.Group className="mb-3" controlId="bairro">
                     <Form.Label>Bairro: </Form.Label>
-                    <Form.Control type="text" {...register('bairro')} />
+                    <Form.Control isInvalid={errors.bairro} type="text" {...register('bairro',alunoValidator.bairro)} placeholder="Digite o Bairro"  />
                 </Form.Group>
+                {
+                    errors.bairro &&
+                    <small className='mt-1 text-danger'>{errors.bairro.message}</small>
+                }
 
             
                 <div className='text-center'>

@@ -41,8 +41,8 @@ const index = () => {
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Data de início</th>
-                        <th>Data de fim</th>
+                        <th>Capacidade</th>
+                        <th>Tipo</th>
                     </tr>
                 </thead>
                 <tbody>
