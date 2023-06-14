@@ -6,7 +6,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import axios from 'axios'
+import { mask } from 'remask'
+
 
 const id = () => {
     const { push, query } = useRouter()
@@ -30,6 +31,14 @@ const id = () => {
     window.localStorage.setItem('alunos', JSON.stringify(alunos))
     push("/alunos")
   }
+
+  function handleChange(event) {
+    const name = event.target.name
+    const valor = event.target.value
+    const mascara = event.target.getAttribute('mask')
+
+    setValue(name, mask(valor, mascara));
+}
 
     return (
         <Pagina titulo="alunos">
